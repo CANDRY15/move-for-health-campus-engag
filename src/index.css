@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -34,7 +34,7 @@
     --input: 220 13% 91%;
     --ring: 357 73% 44%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -45,7 +45,7 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 357 73% 44%;
 
-    --hero-gradient: linear-gradient(135deg, hsl(357 73% 44%), hsl(357 73% 34%));
+    --hero-gradient: linear-gradient(135deg, hsl(357 73% 44%), hsl(357 73% 30%));
     --section-alt: 0 0% 97.5%;
   }
 
@@ -96,10 +96,14 @@
 
 @layer utilities {
   .section-padding {
-    @apply py-20 px-4 md:px-8 lg:px-16;
+    @apply py-16 px-5 md:py-20 md:px-8 lg:px-16;
   }
 
   .section-alt {
     background-color: hsl(var(--section-alt));
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-md border shadow-lg;
   }
 }
