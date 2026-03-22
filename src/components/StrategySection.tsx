@@ -16,50 +16,50 @@ const results = [
 ];
 
 const StrategySection = () => (
-  <section id="strategie" className="section-padding">
+  <section id="strategie" className="section-padding overflow-hidden">
     <div className="container mx-auto max-w-5xl">
-      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Cadre stratégique</h2>
-        <div className="w-16 h-1 bg-primary mx-auto rounded-full" />
+      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
+        <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-3">Cadre stratégique</h2>
+        <div className="w-12 h-1 bg-primary mx-auto rounded-full" />
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-accent/50 rounded-xl p-8 mb-10 border">
-        <div className="flex items-start gap-4">
-          <Target className="text-primary mt-1 shrink-0" size={28} />
+      <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-accent/50 rounded-xl p-6 mb-8 border">
+        <div className="flex items-start gap-3">
+          <Target className="text-primary mt-0.5 shrink-0" size={22} />
           <div>
-            <h3 className="font-display text-xl font-bold text-foreground mb-2">Objectif global</h3>
-            <p className="text-muted-foreground leading-relaxed">
+            <h3 className="font-display text-base font-bold text-foreground mb-1.5">Objectif global</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">
               Faire de la prévention un réflexe communautaire et de la donnée sanitaire un outil de décision accessible, en mobilisant la jeunesse universitaire congolaise comme actrice de changement.
             </p>
           </div>
         </div>
       </motion.div>
 
-      <div className="grid md:grid-cols-2 gap-8 mb-10">
-        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-card rounded-xl p-8 border shadow-sm">
-          <div className="flex items-center gap-3 mb-5">
-            <CheckCircle className="text-primary" size={22} />
-            <h3 className="font-display text-lg font-bold text-foreground">Objectifs spécifiques</h3>
+      <div className="grid md:grid-cols-2 gap-5 mb-8">
+        <motion.div initial={{ opacity: 0, x: -15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-card rounded-xl p-6 border shadow-sm">
+          <div className="flex items-center gap-2 mb-4">
+            <CheckCircle className="text-primary" size={18} />
+            <h3 className="font-display text-sm font-bold text-foreground">Objectifs spécifiques</h3>
           </div>
           <ul className="space-y-3">
             {objectives.map((o, i) => (
-              <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
-                <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center shrink-0 mt-0.5 font-semibold">{i + 1}</span>
+              <li key={i} className="flex items-start gap-2.5 text-xs text-muted-foreground leading-relaxed">
+                <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center shrink-0 mt-0.5 font-bold">{i + 1}</span>
                 {o}
               </li>
             ))}
           </ul>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-card rounded-xl p-8 border shadow-sm">
-          <div className="flex items-center gap-3 mb-5">
-            <TrendingUp className="text-primary" size={22} />
-            <h3 className="font-display text-lg font-bold text-foreground">Résultats attendus</h3>
+        <motion.div initial={{ opacity: 0, x: 15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-card rounded-xl p-6 border shadow-sm">
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp className="text-primary" size={18} />
+            <h3 className="font-display text-sm font-bold text-foreground">Résultats attendus</h3>
           </div>
           <ul className="space-y-3">
             {results.map((r, i) => (
-              <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
-                <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center shrink-0 mt-0.5 font-semibold">{i + 1}</span>
+              <li key={i} className="flex items-start gap-2.5 text-xs text-muted-foreground leading-relaxed">
+                <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center shrink-0 mt-0.5 font-bold">{i + 1}</span>
                 {r}
               </li>
             ))}
@@ -67,12 +67,12 @@ const StrategySection = () => (
         </motion.div>
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card rounded-xl p-8 border shadow-sm">
-        <div className="flex items-start gap-4">
-          <BookOpen className="text-primary mt-1 shrink-0" size={24} />
+      <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card rounded-xl p-6 border shadow-sm">
+        <div className="flex items-start gap-3">
+          <BookOpen className="text-primary mt-0.5 shrink-0" size={20} />
           <div>
-            <h3 className="font-display text-lg font-bold text-foreground mb-2">Justification scientifique</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
+            <h3 className="font-display text-sm font-bold text-foreground mb-1.5">Justification scientifique</h3>
+            <p className="text-muted-foreground text-xs leading-relaxed">
               La prévention primaire constitue l'approche la plus rentable en santé publique. En République Démocratique du Congo, le déficit de données fiables et la faible implication des jeunes dans la prévention constituent des freins majeurs à l'amélioration des indicateurs sanitaires. Health Campus Move s'inscrit dans une démarche fondée sur les preuves, en produisant des données de terrain et en formant une nouvelle génération d'acteurs de prévention.
             </p>
           </div>

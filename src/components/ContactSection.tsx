@@ -17,48 +17,52 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="section-padding">
-      <div className="container mx-auto max-w-3xl">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+    <section id="contact" className="section-padding overflow-hidden">
+      <div className="container mx-auto max-w-lg">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8">
+          <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-3">
             {joinMode ? "Rejoindre l'initiative" : "Nous contacter"}
           </h2>
-          <div className="w-16 h-1 bg-primary mx-auto rounded-full mb-6" />
+          <div className="w-12 h-1 bg-primary mx-auto rounded-full mb-5" />
 
-          <div className="flex justify-center gap-3">
-            <Button variant={joinMode ? "outline" : "default"} size="sm" onClick={() => setJoinMode(false)}>
-              <Send size={16} className="mr-2" /> Contact
+          <div className="flex justify-center gap-2">
+            <Button variant={joinMode ? "outline" : "default"} size="sm" onClick={() => setJoinMode(false)} className="text-xs rounded-full px-4">
+              <Send size={14} className="mr-1.5" /> Contact
             </Button>
-            <Button variant={joinMode ? "default" : "outline"} size="sm" onClick={() => setJoinMode(true)}>
-              <UserPlus size={16} className="mr-2" /> Rejoindre
+            <Button variant={joinMode ? "default" : "outline"} size="sm" onClick={() => setJoinMode(true)} className="text-xs rounded-full px-4">
+              <UserPlus size={14} className="mr-1.5" /> Rejoindre
             </Button>
           </div>
         </motion.div>
 
         <motion.form
           key={joinMode ? "join" : "contact"}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           onSubmit={handleSubmit}
-          className="bg-card rounded-xl p-8 border shadow-sm space-y-5"
+          className="bg-card rounded-xl p-6 border shadow-sm space-y-4"
         >
-          <div className="grid sm:grid-cols-2 gap-4">
-            <Input placeholder="Nom complet" required name="name" />
-            <Input placeholder="Email" type="email" required name="email" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <Input placeholder="Nom complet" required name="name" className="text-sm" />
+            <Input placeholder="Email" type="email" required name="email" className="text-sm" />
           </div>
           {joinMode && (
-            <Input placeholder="Faculté / Institution" name="institution" />
+            <Input placeholder="Faculté / Institution" name="institution" className="text-sm" />
           )}
-          <Textarea placeholder={joinMode ? "Motivation pour rejoindre HCM" : "Votre message"} rows={5} required name="message" />
-          <Button type="submit" className="w-full">
+          <Textarea placeholder={joinMode ? "Motivation pour rejoindre HCM" : "Votre message"} rows={4} required name="message" className="text-sm" />
+          <Button type="submit" className="w-full rounded-full">
             {joinMode ? "Envoyer ma candidature" : "Envoyer le message"}
           </Button>
         </motion.form>
 
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mt-10 text-center space-y-2">
-          <div className="flex items-center justify-center gap-2 text-muted-foreground text-sm">
-            <Phone size={14} />
-            <span>+243 89 3777 677 | +243 858 125 358 | +243 826 158 845</span>
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mt-8 text-center space-y-1.5">
+          <div className="flex items-center justify-center gap-2 text-muted-foreground text-xs">
+            <Phone size={13} />
+            <a href="tel:+243815050397" className="hover:text-primary transition-colors">+243 815 050 397</a>
+          </div>
+          <div className="flex items-center justify-center gap-2 text-muted-foreground text-xs">
+            <Phone size={13} />
+            <a href="tel:+2438581125358" className="hover:text-primary transition-colors">+243 858 112 5358</a>
           </div>
         </motion.div>
       </div>
