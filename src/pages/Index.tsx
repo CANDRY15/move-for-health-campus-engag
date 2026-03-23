@@ -9,6 +9,7 @@ import ImpactSection from "@/components/ImpactSection";
 import ValuesSection from "@/components/ValuesSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => (
   <>
@@ -23,6 +24,7 @@ const Index = () => (
     <ValuesSection />
     <ContactSection />
     <Footer />
+    <WhatsAppButton />
   </>
 );
 
