@@ -8,7 +8,7 @@ const WhatsAppIcon = () => (
 
 const WhatsAppButton = () => (
   <motion.a
-    href="https://wa.me/243858125358"
+    href="https://wa.me/243858125358?text=Bonjour%20HCM%2C%20je%20voudrais%20en%20savoir%20plus%20sur%20votre%20initiative.%20Merci%20!"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Contacter via WhatsApp"
