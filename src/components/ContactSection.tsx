@@ -62,7 +62,7 @@ const ContactSection = () => {
           </div>
           <div className="flex items-center justify-center gap-2 text-muted-foreground text-xs">
             <Phone size={13} />
-            <a href="tel:+2438581125358" className="hover:text-primary transition-colors">+243 858 112 5358</a>
+            <a href="tel:+243858125358" className="hover:text-primary transition-colors">+243 858 125 358</a>
           </div>
         </motion.div>
       </div>
