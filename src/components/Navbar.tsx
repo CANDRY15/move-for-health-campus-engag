@@ -9,6 +9,7 @@ const navLinks = [
   { label: "Activités", href: "#activites" },
   { label: "Galerie", href: "#galerie" },
   { label: "Organisation", href: "#organisation" },
+  { label: "Témoignages", href: "#temoignages" },
   { label: "Impact", href: "#impact" },
   { label: "Valeurs", href: "#valeurs" },
   { label: "Contact", href: "#contact" },
@@ -26,10 +27,15 @@ const Navbar = () => {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-md shadow-sm border-b" : "bg-transparent"}`}>
-      <div className="container mx-auto flex items-center justify-between h-14 md:h-16 px-4">
-        <a href="#accueil" className={`font-display text-xl font-bold transition-colors ${scrolled ? "text-primary" : "text-primary-foreground"}`}>
+      <div className="flex items-center justify-between h-14 px-4">
+        <motion.a
+          href="#accueil"
+          className={`font-display text-xl font-bold transition-colors ${scrolled ? "text-primary" : "text-primary-foreground"}`}
+          animate={{ scale: [1, 1.08, 1] }}
+          transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
+        >
           HCM
-        </a>
+        </motion.a>
         <div className="hidden lg:flex items-center gap-5">
           {navLinks.map((l) => (
             <a key={l.href} href={l.href} className={`text-xs font-medium transition-colors ${scrolled ? "text-muted-foreground hover:text-primary" : "text-primary-foreground/80 hover:text-primary-foreground"}`}>
@@ -56,8 +62,8 @@ const Navbar = () => {
                 onClick={() => setOpen(false)}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="block px-6 py-3 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                transition={{ delay: i * 0.04 }}
+                className="block px-5 py-2.5 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-accent/50 transition-colors"
               >
                 {l.label}
               </motion.a>
