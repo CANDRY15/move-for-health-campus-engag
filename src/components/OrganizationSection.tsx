@@ -17,7 +17,7 @@ const central: Member[] = [
   { name: "KAHENGA MUKUTA MBAYO Juvenal", role: "Gestion des données numériques" },
   { name: "CANDRY SAIDI Chadrack", role: "Gestion des données numériques" },
   { name: "FEZA MISHILA Néhémie", role: "Marketing et communication" },
-  { name: "KAZUMA IHEMA Sarah", role: "Communication et gestion des ventes" },
+  { name: "KAZUMA IHEMBA Sarah", role: "Communication et gestion des ventes" },
   { name: "LEMBE KAYUMBA Freddy", role: "Gestion de la sécurité" },
   { name: "USHINDI KALIBWA David", role: "Responsable mobilisation et sport" },
 ];
