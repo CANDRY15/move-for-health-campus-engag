@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Shield, Database, FileText, BarChart3, FileOutput, Bot } from "lucide-react";
+import { staggerContainer, fadeUp, fadeLeft, titleReveal } from "@/lib/motion";
 import analyseImg from "@/assets/analyse-donnees.jpg";
 
 const steps = [
@@ -13,44 +14,56 @@ const steps = [
 const MethodologySection = () => (
   <section id="methodologie" className="section-padding section-alt overflow-hidden">
     <div className="container mx-auto max-w-5xl">
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
+      <motion.div variants={titleReveal} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-10">
         <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-3">Méthodologie</h2>
         <div className="w-12 h-1 bg-primary mx-auto rounded-full" />
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, scale: 0.9, rotate: -1 }}
+        whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
         viewport={{ once: true }}
+        transition={{ type: "spring", damping: 20 }}
         className="rounded-2xl overflow-hidden mb-8 shadow-lg"
       >
         <img src={analyseImg} alt="Analyse de données" className="w-full h-44 md:h-56 object-cover" />
       </motion.div>
 
-      <div className="space-y-4 mb-8">
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="space-y-4 mb-8"
+      >
         {steps.map((s, i) => (
           <motion.div
             key={s.title}
-            initial={{ opacity: 0, x: i % 2 === 0 ? -15 : 15 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.08 }}
-            className="flex items-start gap-4 bg-card rounded-xl p-5 border hover:shadow-sm transition-shadow"
+            variants={i % 2 === 0 ? fadeLeft : fadeUp}
+            whileHover={{ x: 6 }}
+            className="flex items-start gap-4 bg-card rounded-xl p-5 border transition-all duration-300 hover:shadow-sm"
           >
-            <div className="w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shrink-0">
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 + i * 0.08, type: "spring", damping: 12 }}
+              className="w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shrink-0"
+            >
               {i + 1}
-            </div>
+            </motion.div>
             <div>
               <h3 className="font-display text-sm font-bold text-foreground mb-0.5">{s.title}</h3>
               <p className="text-muted-foreground text-xs leading-relaxed">{s.desc}</p>
             </div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
         className="bg-accent/60 rounded-xl p-5 border flex items-start gap-3"
       >

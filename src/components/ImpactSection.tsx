@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { Users, Activity, TrendingUp, Handshake } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
+import { staggerContainer, scaleUp, titleReveal } from "@/lib/motion";
 
 const useCountUp = (end: number, duration = 2000, startCounting: boolean) => {
   const [count, setCount] = useState(0);
@@ -29,7 +30,7 @@ const indicators = [
   { icon: Handshake, label: "Partenariats", value: 12, suffix: "", note: "Académiques & sanitaires" },
 ];
 
-const CounterCard = ({ ind, i }: { ind: typeof indicators[0]; i: number }) => {
+const CounterCard = ({ ind }: { ind: typeof indicators[0] }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const count = useCountUp(ind.value, 2000, isInView);
@@ -37,16 +38,19 @@ const CounterCard = ({ ind, i }: { ind: typeof indicators[0]; i: number }) => {
   return (
     <motion.div
       ref={ref}
-      key={ind.label}
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay: i * 0.1, type: "spring" }}
-      className="bg-card rounded-xl p-5 border text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+      variants={scaleUp}
+      whileHover={{ y: -6, boxShadow: "0 12px 30px -10px hsl(var(--primary) / 0.2)" }}
+      className="bg-card rounded-xl p-5 border text-center transition-all duration-300"
     >
-      <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center mx-auto mb-3">
+      <motion.div
+        initial={{ scale: 0, rotate: -15 }}
+        whileInView={{ scale: 1, rotate: 0 }}
+        viewport={{ once: true }}
+        transition={{ type: "spring", damping: 12 }}
+        className="w-10 h-10 rounded-full bg-accent flex items-center justify-center mx-auto mb-3"
+      >
         <ind.icon className="text-accent-foreground" size={18} />
-      </div>
+      </motion.div>
       <p className="font-display text-2xl font-bold text-primary mb-0.5">
         {count}{ind.suffix}
       </p>
@@ -59,7 +63,7 @@ const CounterCard = ({ ind, i }: { ind: typeof indicators[0]; i: number }) => {
 const ImpactSection = () => (
   <section id="impact" className="section-padding overflow-hidden">
     <div className="container mx-auto max-w-5xl">
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
+      <motion.div variants={titleReveal} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-10">
         <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-3">Impact et indicateurs</h2>
         <div className="w-12 h-1 bg-primary mx-auto rounded-full" />
         <p className="text-muted-foreground mt-3 max-w-md mx-auto text-xs">
@@ -67,11 +71,17 @@ const ImpactSection = () => (
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {indicators.map((ind, i) => (
-          <CounterCard key={ind.label} ind={ind} i={i} />
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+      >
+        {indicators.map((ind) => (
+          <CounterCard key={ind.label} ind={ind} />
         ))}
-      </div>
+      </motion.div>
     </div>
   </section>
 );

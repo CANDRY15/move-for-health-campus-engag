@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Target, CheckCircle, TrendingUp, BookOpen } from "lucide-react";
+import { staggerContainer, fadeUp, fadeLeft, fadeRight, titleReveal } from "@/lib/motion";
 
 const objectives = [
   "Promouvoir la prévention comme premier acte médical auprès de la communauté universitaire et péri-universitaire",
@@ -18,12 +19,12 @@ const results = [
 const StrategySection = () => (
   <section id="strategie" className="section-padding overflow-hidden">
     <div className="container mx-auto max-w-5xl">
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
+      <motion.div variants={titleReveal} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-10">
         <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-3">Cadre stratégique</h2>
         <div className="w-12 h-1 bg-primary mx-auto rounded-full" />
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-accent/50 rounded-xl p-6 mb-8 border">
+      <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="bg-accent/50 rounded-xl p-6 mb-8 border">
         <div className="flex items-start gap-3">
           <Target className="text-primary mt-0.5 shrink-0" size={22} />
           <div>
@@ -36,38 +37,38 @@ const StrategySection = () => (
       </motion.div>
 
       <div className="grid md:grid-cols-2 gap-5 mb-8">
-        <motion.div initial={{ opacity: 0, x: -15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-card rounded-xl p-6 border shadow-sm">
+        <motion.div variants={fadeLeft} initial="hidden" whileInView="visible" viewport={{ once: true }} className="bg-card rounded-xl p-6 border shadow-sm">
           <div className="flex items-center gap-2 mb-4">
             <CheckCircle className="text-primary" size={18} />
             <h3 className="font-display text-sm font-bold text-foreground">Objectifs spécifiques</h3>
           </div>
-          <ul className="space-y-3">
+          <motion.ul variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-3">
             {objectives.map((o, i) => (
-              <li key={i} className="flex items-start gap-2.5 text-xs text-muted-foreground leading-relaxed">
+              <motion.li key={i} variants={fadeUp} className="flex items-start gap-2.5 text-xs text-muted-foreground leading-relaxed">
                 <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center shrink-0 mt-0.5 font-bold">{i + 1}</span>
                 {o}
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </motion.ul>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, x: 15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-card rounded-xl p-6 border shadow-sm">
+        <motion.div variants={fadeRight} initial="hidden" whileInView="visible" viewport={{ once: true }} className="bg-card rounded-xl p-6 border shadow-sm">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="text-primary" size={18} />
             <h3 className="font-display text-sm font-bold text-foreground">Résultats attendus</h3>
           </div>
-          <ul className="space-y-3">
+          <motion.ul variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-3">
             {results.map((r, i) => (
-              <li key={i} className="flex items-start gap-2.5 text-xs text-muted-foreground leading-relaxed">
+              <motion.li key={i} variants={fadeUp} className="flex items-start gap-2.5 text-xs text-muted-foreground leading-relaxed">
                 <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center shrink-0 mt-0.5 font-bold">{i + 1}</span>
                 {r}
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </motion.ul>
         </motion.div>
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card rounded-xl p-6 border shadow-sm">
+      <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="bg-card rounded-xl p-6 border shadow-sm">
         <div className="flex items-start gap-3">
           <BookOpen className="text-primary mt-0.5 shrink-0" size={20} />
           <div>

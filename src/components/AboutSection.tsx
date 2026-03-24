@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { GraduationCap, Microscope, Building2 } from "lucide-react";
+import { staggerContainer, fadeUp, scaleUp, titleReveal } from "@/lib/motion";
 import depistageImg from "@/assets/depistage-communautaire.jpg";
 
 const items = [
@@ -24,8 +25,9 @@ const AboutSection = () => (
   <section id="apropos" className="section-padding section-alt overflow-hidden">
     <div className="container mx-auto max-w-5xl">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        variants={titleReveal}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
         className="text-center mb-10"
       >
@@ -33,25 +35,29 @@ const AboutSection = () => (
         <div className="w-12 h-1 bg-primary mx-auto rounded-full" />
       </motion.div>
 
-      {/* Photo banner */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
+        variants={scaleUp}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
         className="rounded-2xl overflow-hidden mb-10 shadow-lg"
       >
         <img src={depistageImg} alt="Dépistage communautaire" className="w-full h-48 md:h-64 object-cover" />
       </motion.div>
 
-      <div className="grid md:grid-cols-3 gap-5">
-        {items.map((item, i) => (
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="grid md:grid-cols-3 gap-5"
+      >
+        {items.map((item) => (
           <motion.div
             key={item.title}
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.12 }}
-            className="bg-card rounded-xl p-6 shadow-sm border hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+            variants={fadeUp}
+            whileHover={{ y: -6, boxShadow: "0 12px 30px -10px hsl(var(--primary) / 0.15)" }}
+            className="bg-card rounded-xl p-6 shadow-sm border transition-all duration-300"
           >
             <div className="w-11 h-11 rounded-lg bg-accent flex items-center justify-center mb-4">
               <item.icon className="text-accent-foreground" size={22} />
@@ -60,7 +66,7 @@ const AboutSection = () => (
             <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   </section>
 );
