@@ -13,11 +13,13 @@ import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import SectionDivider from "@/components/SectionDivider";
 
 const Index = () => (
   <>
     <Navbar />
     <HeroSection />
+    <SectionDivider className="-mt-1 relative z-10" />
     <AboutSection />
     <StrategySection />
     <ActivitiesSection />
