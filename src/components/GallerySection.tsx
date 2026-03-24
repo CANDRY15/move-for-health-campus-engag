@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { staggerContainer, scaleUp, titleReveal } from "@/lib/motion";
 import gallery1 from "@/assets/gallery-event-1.jpg";
 import gallery2 from "@/assets/gallery-event-2.jpg";
 import gallery3 from "@/assets/gallery-event-3.jpg";
@@ -24,8 +25,9 @@ const GallerySection = () => {
     <section id="galerie" className="section-padding overflow-hidden">
       <div className="container mx-auto max-w-5xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={titleReveal}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
           className="text-center mb-8"
         >
@@ -36,15 +38,18 @@ const GallerySection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-2 md:grid-cols-3 gap-3"
+        >
           {photos.map((photo, i) => (
             <motion.button
               key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              whileHover={{ scale: 1.03 }}
+              variants={scaleUp}
+              whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setSelected(i)}
               className="relative rounded-xl overflow-hidden aspect-[4/3] group cursor-pointer"
@@ -55,7 +60,7 @@ const GallerySection = () => {
                 loading="lazy"
                 width={800}
                 height={600}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="absolute bottom-2 left-3 text-primary-foreground text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -63,7 +68,7 @@ const GallerySection = () => {
               </span>
             </motion.button>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Lightbox */}
@@ -84,9 +89,10 @@ const GallerySection = () => {
               <X size={28} />
             </motion.button>
             <motion.img
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.7, opacity: 0, rotate: -2 }}
+              animate={{ scale: 1, opacity: 1, rotate: 0 }}
+              exit={{ scale: 0.7, opacity: 0, rotate: 2 }}
+              transition={{ type: "spring", damping: 20 }}
               src={photos[selected].src}
               alt={photos[selected].alt}
               className="max-w-full max-h-[85vh] rounded-xl object-contain"

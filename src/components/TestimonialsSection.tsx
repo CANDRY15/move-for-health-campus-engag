@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Quote, Star } from "lucide-react";
+import { staggerContainer, fadeUp, titleReveal } from "@/lib/motion";
 
 interface Testimonial {
   name: string;
@@ -39,8 +40,9 @@ const TestimonialsSection = () => (
   <section id="temoignages" className="section-padding bg-muted/50 overflow-hidden">
     <div className="container mx-auto max-w-5xl">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        variants={titleReveal}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
         className="text-center mb-8"
       >
@@ -51,20 +53,32 @@ const TestimonialsSection = () => (
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {testimonials.map((t, i) => (
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+      >
+        {testimonials.map((t) => (
           <motion.div
             key={t.name}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="bg-card rounded-xl p-5 border shadow-sm relative"
+            variants={fadeUp}
+            whileHover={{ y: -4, boxShadow: "0 12px 30px -10px hsl(var(--primary) / 0.12)" }}
+            className="bg-card rounded-xl p-5 border shadow-sm relative transition-all duration-300"
           >
             <Quote className="text-primary/15 absolute top-4 right-4" size={32} />
             <div className="flex gap-0.5 mb-3">
               {Array.from({ length: t.rating }).map((_, j) => (
-                <Star key={j} size={12} className="fill-primary text-primary" />
+                <motion.div
+                  key={j}
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 + j * 0.08, type: "spring", damping: 10 }}
+                >
+                  <Star size={12} className="fill-primary text-primary" />
+                </motion.div>
               ))}
             </div>
             <p className="text-foreground/80 text-sm leading-relaxed mb-4 italic">
@@ -81,7 +95,7 @@ const TestimonialsSection = () => (
             </div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   </section>
 );
