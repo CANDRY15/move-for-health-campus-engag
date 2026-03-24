@@ -12,6 +12,7 @@ const navLinks = [
   { label: "Témoignages", href: "#temoignages" },
   { label: "Impact", href: "#impact" },
   { label: "Valeurs", href: "#valeurs" },
+  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
 
