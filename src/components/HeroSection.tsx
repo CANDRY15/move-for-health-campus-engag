@@ -87,6 +87,16 @@ const HeroSection = () => (
             </motion.div>
           ))}
         </motion.div>
+
+        <motion.div variants={fadeUp} className="mt-6">
+          <Link
+            to="/ticket"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold text-sm px-6 py-3 rounded-full hover:bg-primary/90 transition-colors shadow-lg"
+          >
+            <Ticket size={16} />
+            Obtenez votre billet
+          </Link>
+        </motion.div>
       </motion.div>
     </div>
   </section>
