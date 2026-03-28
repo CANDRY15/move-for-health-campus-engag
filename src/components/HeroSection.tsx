@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { Heart, BarChart3, Users } from "lucide-react";
+import { Heart, BarChart3, Users, Ticket } from "lucide-react";
 import { staggerContainer, fadeUp } from "@/lib/motion";
+import { Link } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const pillars = [
