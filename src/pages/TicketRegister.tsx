@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Ticket, ShieldCheck, User, Mail, Phone, CheckCircle2, ArrowLeft } from "lucide-react";
+import { Ticket, ShieldCheck, User, Mail, Phone, CheckCircle2, ArrowLeft, Download } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toPng } from "html-to-image";
+import { toast } from "sonner";
 
 const PASSWORD = "2026Campus2026";
+const FALLBACK_PUBLIC_URL = "https://hcm-2026.lovable.app";
 
 interface TicketData {
   id: string;
@@ -22,6 +25,13 @@ const TicketRegister = () => {
   const [pwError, setPwError] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", category: "standard" as "standard" | "vip" });
   const [ticket, setTicket] = useState<TicketData | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const ticketCardRef = useRef<HTMLDivElement | null>(null);
+
+  const buildVerifyUrl = (payload: Pick<TicketData, "id" | "name" | "category" | "verified">) => {
+    const origin = typeof window !== "undefined" ? window.location.origin : FALLBACK_PUBLIC_URL;
+    return `${origin}/verify?data=${encodeURIComponent(JSON.stringify(payload))}`;
+  };
 
   const handleAuth = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +65,29 @@ const TicketRegister = () => {
 
     setTicket(newTicket);
     setStep("done");
+  };
+
+  const handleDownloadTicket = async () => {
+    if (!ticketCardRef.current || !ticket) return;
+
+    try {
+      setIsDownloading(true);
+      const dataUrl = await toPng(ticketCardRef.current, {
+        cacheBust: true,
+        pixelRatio: 2,
+        filter: (node) => !(node instanceof HTMLElement && node.dataset.downloadIgnore === "true"),
+      });
+
+      const link = document.createElement("a");
+      link.download = `billet-hcm-${ticket.id}.png`;
+      link.href = dataUrl;
+      link.click();
+      toast.success("Billet téléchargé en PNG");
+    } catch {
+      toast.error("Impossible de télécharger le billet");
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const price = form.category === "vip" ? 25 : 20;
@@ -211,6 +244,7 @@ const TicketRegister = () => {
               key="done"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
+              ref={ticketCardRef}
               className="bg-card border border-border rounded-2xl overflow-hidden shadow-xl"
             >
               {/* Header */}
@@ -263,12 +297,12 @@ const TicketRegister = () => {
                 <div className="flex justify-center">
                   <div className="bg-white p-3 rounded-xl">
                     <QRCodeSVG
-                      value={`https://health-campus-move-hub.lovable.app/verify?data=${encodeURIComponent(JSON.stringify({
+                      value={buildVerifyUrl({
                         id: ticket.id,
                         name: ticket.name,
                         category: ticket.category,
                         verified: true,
-                      }))}`}
+                      })}
                       size={160}
                       level="H"
                     />
@@ -279,19 +313,30 @@ const TicketRegister = () => {
                 </p>
 
                 {/* Actions */}
-                <div className="flex gap-2">
+                <div data-download-ignore="true" className="space-y-2">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => { setStep("auth"); setPassword(""); setForm({ name: "", email: "", phone: "", category: "standard" }); }}
+                      className="flex-1 py-2.5 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors"
+                    >
+                      Nouveau billet
+                    </button>
+                    <Link
+                      to="/my-ticket"
+                      className="flex-1 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-medium text-center hover:bg-primary/90 transition-colors"
+                    >
+                      Voir mes billets
+                    </Link>
+                  </div>
                   <button
-                    onClick={() => { setStep("auth"); setPassword(""); setForm({ name: "", email: "", phone: "", category: "standard" }); }}
-                    className="flex-1 py-2.5 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors"
+                    type="button"
+                    onClick={handleDownloadTicket}
+                    disabled={isDownloading}
+                    className="w-full py-2.5 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
                   >
-                    Nouveau billet
+                    <Download className="w-4 h-4" />
+                    {isDownloading ? "Préparation du PNG..." : "Télécharger le billet (PNG)"}
                   </button>
-                  <Link
-                    to="/my-ticket"
-                    className="flex-1 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-medium text-center hover:bg-primary/90 transition-colors"
-                  >
-                    Voir mes billets
-                  </Link>
                 </div>
               </div>
             </motion.div>
