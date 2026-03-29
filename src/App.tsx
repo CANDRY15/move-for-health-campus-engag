@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import TicketRegister from "./pages/TicketRegister.tsx";
 import MyTicket from "./pages/MyTicket.tsx";
+import VerifyTicket from "./pages/VerifyTicket.tsx";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/ticket" element={<TicketRegister />} />
           <Route path="/my-ticket" element={<MyTicket />} />
+          <Route path="/verify" element={<VerifyTicket />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

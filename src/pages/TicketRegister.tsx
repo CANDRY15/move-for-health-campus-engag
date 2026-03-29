@@ -263,12 +263,12 @@ const TicketRegister = () => {
                 <div className="flex justify-center">
                   <div className="bg-white p-3 rounded-xl">
                     <QRCodeSVG
-                      value={JSON.stringify({
+                      value={`https://health-campus-move-hub.lovable.app/verify?data=${encodeURIComponent(JSON.stringify({
                         id: ticket.id,
                         name: ticket.name,
                         category: ticket.category,
                         verified: true,
-                      })}
+                      }))}`}
                       size={160}
                       level="H"
                     />
