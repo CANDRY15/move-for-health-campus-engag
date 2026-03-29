@@ -261,7 +261,7 @@ const TicketRegister = () => {
 
                 <div className="text-center">
                   <p className="text-xs text-muted-foreground uppercase tracking-widest">Health Campus Move</p>
-                  <p className="text-lg font-bold text-foreground mt-1">Manifestation 2026</p>
+                  <p className="text-lg font-bold text-foreground mt-1">Marche de santé 2026</p>
                   <span className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-bold ${
                     ticket.category === "vip"
                       ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
