@@ -156,7 +156,7 @@ const TicketRegister = () => {
                   <Ticket className="w-7 h-7 text-primary" />
                 </div>
                 <h1 className="text-xl font-bold text-foreground">Enregistrement du Billet</h1>
-                <p className="text-xs text-muted-foreground mt-1">Health Campus Move — Manifestation 2026</p>
+                <p className="text-xs text-muted-foreground mt-1"><p className="text-xs text-muted-foreground mt-1">Health Campus Move — Marche de santé 2026</p></p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-3">
