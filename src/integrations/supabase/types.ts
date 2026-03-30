@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      gallery_photos: {
+        Row: {
+          caption: string
+          created_at: string
+          id: string
+          storage_path: string
+          url: string
+        }
+        Insert: {
+          caption?: string
+          created_at?: string
+          id?: string
+          storage_path: string
+          url: string
+        }
+        Update: {
+          caption?: string
+          created_at?: string
+          id?: string
+          storage_path?: string
+          url?: string
+        }
+        Relationships: []
+      }
       sellers: {
         Row: {
           active: boolean

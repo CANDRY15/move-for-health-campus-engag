@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { staggerContainer, scaleUp, titleReveal } from "@/lib/motion";
+import { supabase } from "@/integrations/supabase/client";
+
+// Static fallback images
 import gallery1 from "@/assets/gallery-event-1.jpg";
 import gallery2 from "@/assets/gallery-event-2.jpg";
 import gallery3 from "@/assets/gallery-event-3.jpg";
@@ -9,7 +12,7 @@ import gallery4 from "@/assets/gallery-event-4.jpg";
 import gallery5 from "@/assets/gallery-event-5.jpg";
 import gallery6 from "@/assets/gallery-event-6.jpg";
 
-const photos = [
+const fallbackPhotos = [
   { src: gallery1, alt: "Campagne de sensibilisation communautaire", caption: "Sensibilisation" },
   { src: gallery2, alt: "Marche de santé dans les rues", caption: "Marche de santé" },
   { src: gallery3, alt: "Dépistage gratuit en communauté", caption: "Dépistage" },
@@ -18,8 +21,35 @@ const photos = [
   { src: gallery6, alt: "Distribution de brochures de santé", caption: "Sensibilisation" },
 ];
 
+interface Photo {
+  src: string;
+  alt: string;
+  caption: string;
+}
+
 const GallerySection = () => {
   const [selected, setSelected] = useState<number | null>(null);
+  const [photos, setPhotos] = useState<Photo[]>(fallbackPhotos);
+
+  useEffect(() => {
+    const loadFromDB = async () => {
+      const { data } = await supabase
+        .from("gallery_photos")
+        .select("url, caption")
+        .order("created_at", { ascending: false });
+
+      if (data && data.length > 0) {
+        setPhotos(
+          data.map((p) => ({
+            src: p.url,
+            alt: p.caption || "Photo galerie",
+            caption: p.caption || "",
+          }))
+        );
+      }
+    };
+    loadFromDB();
+  }, []);
 
   return (
     <section id="galerie" className="section-padding overflow-hidden">
