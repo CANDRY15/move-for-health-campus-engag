@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.tsx";
 import TicketRegister from "./pages/TicketRegister.tsx";
 import MyTicket from "./pages/MyTicket.tsx";
 import VerifyTicket from "./pages/VerifyTicket.tsx";
+import AdminDashboard from "./pages/AdminDashboard.tsx";
 
 const queryClient = new QueryClient();
 
