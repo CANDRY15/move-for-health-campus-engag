@@ -14,7 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      sellers: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          name: string
+          password: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          name: string
+          password: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          name?: string
+          password?: string
+        }
+        Relationships: []
+      }
+      tickets: {
+        Row: {
+          category: string
+          created_at: string
+          email: string
+          id: string
+          name: string
+          phone: string
+          price: number
+          seller_id: string | null
+          ticket_id: string
+          verified: boolean
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          phone: string
+          price: number
+          seller_id?: string | null
+          ticket_id: string
+          verified?: boolean
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          phone?: string
+          price?: number
+          seller_id?: string | null
+          ticket_id?: string
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tickets_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "sellers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
