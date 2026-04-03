@@ -94,6 +94,27 @@ const AdminStats = ({ tickets, sellers }: Props) => {
         Exporter les ventes (CSV)
       </button>
 
+      {/* Sales chart */}
+      {dailyData.length > 0 && (
+        <div className="bg-card border border-border rounded-2xl p-5 shadow-md">
+          <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-primary" /> Ventes par jour
+          </h2>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={dailyData}>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis dataKey="date" tick={{ fontSize: 11 }} className="text-muted-foreground" />
+                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
+                <Tooltip />
+                <Bar dataKey="standard" name="Standard" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="vip" name="VIP" fill="#eab308" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
       {/* Seller breakdown */}
       <div className="bg-card border border-border rounded-2xl p-5 shadow-md">
         <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
