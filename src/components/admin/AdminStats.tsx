@@ -37,7 +37,48 @@ const StatCard = ({ icon, label, value, color }: { icon: React.ReactNode; label:
   </div>
 );
 
-const AdminStats = ({ tickets, sellers }: Props) => {
+const AdminStats = ({ tickets, sellers, onRefresh }: Props) => {
+  const [qrTicket, setQrTicket] = useState<TicketRow | null>(null);
+
+  const ticketPageUrl = typeof window !== "undefined" ? `${window.location.origin}/ticket` : "https://hcm-2026.lovable.app/ticket";
+
+  const handleDelete = async (ticketId: string) => {
+    if (!confirm("Supprimer ce billet définitivement ?")) return;
+    const { error } = await supabase.from("tickets").delete().eq("ticket_id", ticketId);
+    if (error) { toast.error("Erreur lors de la suppression"); return; }
+    toast.success("Billet supprimé");
+    onRefresh?.();
+  };
+
+  const handleShareQR = async () => {
+    const canvas = document.querySelector("#admin-qr-canvas canvas") as HTMLCanvasElement | null;
+    if (!canvas && !navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(ticketPageUrl);
+      toast.success("Lien copié dans le presse-papiers");
+    } catch {
+      toast.error("Impossible de copier le lien");
+    }
+  };
+
+  const handleDownloadQR = () => {
+    const svg = document.querySelector("#admin-qr-canvas svg") as SVGElement | null;
+    if (!svg) return;
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement("canvas");
+    canvas.width = 512; canvas.height = 512;
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.onload = () => {
+      ctx?.drawImage(img, 0, 0, 512, 512);
+      const link = document.createElement("a");
+      link.download = "qr-ticket-hcm.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      toast.success("QR code téléchargé");
+    };
+    img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
+  };
   const totalRevenue = tickets.reduce((s, t) => s + t.price, 0);
   const standardCount = tickets.filter((t) => t.category === "standard").length;
   const vipCount = tickets.filter((t) => t.category === "vip").length;
