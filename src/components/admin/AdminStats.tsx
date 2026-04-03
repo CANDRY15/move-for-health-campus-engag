@@ -38,6 +38,18 @@ const AdminStats = ({ tickets, sellers }: Props) => {
   const standardCount = tickets.filter((t) => t.category === "standard").length;
   const vipCount = tickets.filter((t) => t.category === "vip").length;
 
+  const dailyData = useMemo(() => {
+    const map: Record<string, { date: string; standard: number; vip: number; revenue: number }> = {};
+    tickets.forEach((t) => {
+      const day = new Date(t.created_at).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" });
+      if (!map[day]) map[day] = { date: day, standard: 0, vip: 0, revenue: 0 };
+      if (t.category === "vip") map[day].vip += 1;
+      else map[day].standard += 1;
+      map[day].revenue += t.price;
+    });
+    return Object.values(map).reverse();
+  }, [tickets]);
+
   const exportCSV = () => {
     const headers = ["ID Billet", "Nom", "Email", "Téléphone", "Catégorie", "Prix", "Vendeur", "Date"];
     const rows = tickets.map((t) => {
