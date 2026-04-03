@@ -1,4 +1,4 @@
-import { Ticket, DollarSign, Users, TrendingUp } from "lucide-react";
+import { Ticket, DollarSign, Users, TrendingUp, Download } from "lucide-react";
 
 interface TicketRow {
   ticket_id: string;

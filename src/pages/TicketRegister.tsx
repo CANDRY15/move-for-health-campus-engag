@@ -262,6 +262,9 @@ const TicketRegister = () => {
                   <div className="flex justify-between"><span className="text-muted-foreground">Email</span><span className="font-medium text-foreground text-right truncate ml-2 max-w-[180px]">{ticket.email}</span></div>
                   <div className="flex justify-between"><span className="text-muted-foreground">Téléphone</span><span className="font-medium text-foreground">{ticket.phone}</span></div>
                   <div className="flex justify-between"><span className="text-muted-foreground">ID Billet</span><span className="font-mono text-xs text-foreground">{ticket.ticket_id}</span></div>
+                  {ticket.seller_name && (
+                    <div className="flex justify-between"><span className="text-muted-foreground">Vendu par</span><span className="font-medium text-primary">{ticket.seller_name}</span></div>
+                  )}
                 </div>
 
                 <div className="border-t-2 border-dashed border-border" />
