@@ -1,5 +1,8 @@
-import { useMemo } from "react";
-import { Ticket, DollarSign, Users, TrendingUp, Download } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Ticket, DollarSign, Users, TrendingUp, Download, Trash2, QrCode, Share2 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 interface TicketRow {

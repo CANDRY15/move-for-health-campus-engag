@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, ShieldCheck } from "lucide-react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
