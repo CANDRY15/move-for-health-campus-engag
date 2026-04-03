@@ -57,6 +57,13 @@ const Navbar = () => {
           ))}
         </div>
         <div className="flex items-center gap-2">
+          <Link
+            to="/admin"
+            className={`p-1.5 rounded-full transition-colors ${scrolled ? "text-foreground hover:bg-accent" : "text-primary-foreground/80 hover:text-primary-foreground"}`}
+            aria-label="Administration"
+          >
+            <ShieldCheck size={18} />
+          </Link>
           <button
             onClick={() => setDark(!dark)}
             className={`p-1.5 rounded-full transition-colors ${scrolled ? "text-foreground hover:bg-accent" : "text-primary-foreground/80 hover:text-primary-foreground"}`}

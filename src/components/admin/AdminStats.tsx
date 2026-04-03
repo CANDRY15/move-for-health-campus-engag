@@ -26,6 +26,7 @@ interface SellerRow {
 interface Props {
   tickets: TicketRow[];
   sellers: SellerRow[];
+  onRefresh?: () => void;
 }
 
 const StatCard = ({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: string | number; color?: string }) => (
