@@ -1,5 +1,8 @@
-import { useMemo } from "react";
-import { Ticket, DollarSign, Users, TrendingUp, Download } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Ticket, DollarSign, Users, TrendingUp, Download, Trash2, QrCode, Share2 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 interface TicketRow {
@@ -23,6 +26,7 @@ interface SellerRow {
 interface Props {
   tickets: TicketRow[];
   sellers: SellerRow[];
+  onRefresh?: () => void;
 }
 
 const StatCard = ({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: string | number; color?: string }) => (
@@ -33,7 +37,48 @@ const StatCard = ({ icon, label, value, color }: { icon: React.ReactNode; label:
   </div>
 );
 
-const AdminStats = ({ tickets, sellers }: Props) => {
+const AdminStats = ({ tickets, sellers, onRefresh }: Props) => {
+  const [qrTicket, setQrTicket] = useState<TicketRow | null>(null);
+
+  const ticketPageUrl = typeof window !== "undefined" ? `${window.location.origin}/ticket` : "https://hcm-2026.lovable.app/ticket";
+
+  const handleDelete = async (ticketId: string) => {
+    if (!confirm("Supprimer ce billet définitivement ?")) return;
+    const { error } = await supabase.from("tickets").delete().eq("ticket_id", ticketId);
+    if (error) { toast.error("Erreur lors de la suppression"); return; }
+    toast.success("Billet supprimé");
+    onRefresh?.();
+  };
+
+  const handleShareQR = async () => {
+    const canvas = document.querySelector("#admin-qr-canvas canvas") as HTMLCanvasElement | null;
+    if (!canvas && !navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(ticketPageUrl);
+      toast.success("Lien copié dans le presse-papiers");
+    } catch {
+      toast.error("Impossible de copier le lien");
+    }
+  };
+
+  const handleDownloadQR = () => {
+    const svg = document.querySelector("#admin-qr-canvas svg") as SVGElement | null;
+    if (!svg) return;
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement("canvas");
+    canvas.width = 512; canvas.height = 512;
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.onload = () => {
+      ctx?.drawImage(img, 0, 0, 512, 512);
+      const link = document.createElement("a");
+      link.download = "qr-ticket-hcm.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      toast.success("QR code téléchargé");
+    };
+    img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
+  };
   const totalRevenue = tickets.reduce((s, t) => s + t.price, 0);
   const standardCount = tickets.filter((t) => t.category === "standard").length;
   const vipCount = tickets.filter((t) => t.category === "vip").length;
@@ -82,6 +127,28 @@ const AdminStats = ({ tickets, sellers }: Props) => {
         <StatCard icon={<DollarSign className="w-5 h-5" />} label="Revenus" value={`$${totalRevenue}`} />
         <StatCard icon={<Users className="w-5 h-5" />} label="Standard" value={standardCount} />
         <StatCard icon={<TrendingUp className="w-5 h-5" />} label="VIP" value={vipCount} color="text-yellow-500" />
+      </div>
+
+      {/* QR Code for ticket page */}
+      <div className="bg-card border border-border rounded-2xl p-5 shadow-md">
+        <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+          <QrCode className="w-5 h-5 text-primary" /> QR Code — Page d'achat
+        </h2>
+        <p className="text-xs text-muted-foreground mb-3">Ce QR code redirige vers <span className="font-mono text-foreground">/ticket</span> pour l'achat de billets.</p>
+        <div className="flex flex-col items-center gap-3">
+          <div id="admin-qr-canvas" className="bg-white p-4 rounded-xl">
+            <QRCodeSVG value={ticketPageUrl} size={180} level="H" />
+          </div>
+          <p className="text-[10px] text-muted-foreground break-all text-center">{ticketPageUrl}</p>
+          <div className="flex gap-2">
+            <button onClick={handleDownloadQR} className="py-2 px-4 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors inline-flex items-center gap-2">
+              <Download className="w-4 h-4" /> Télécharger
+            </button>
+            <button onClick={handleShareQR} className="py-2 px-4 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors inline-flex items-center gap-2">
+              <Share2 className="w-4 h-4" /> Copier le lien
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Export CSV */}
@@ -157,7 +224,8 @@ const AdminStats = ({ tickets, sellers }: Props) => {
                 <th className="pb-2 pr-3">Cat.</th>
                 <th className="pb-2 pr-3">Prix</th>
                 <th className="pb-2 pr-3 hidden md:table-cell">Vendeur</th>
-                <th className="pb-2">Date</th>
+                <th className="pb-2 pr-3">Date</th>
+                <th className="pb-2"></th>
               </tr>
             </thead>
             <tbody>
@@ -177,7 +245,12 @@ const AdminStats = ({ tickets, sellers }: Props) => {
                     </td>
                     <td className="py-2 pr-3 font-medium">${t.price}</td>
                     <td className="py-2 pr-3 hidden md:table-cell text-muted-foreground">{sellerName}</td>
-                    <td className="py-2 text-muted-foreground">{new Date(t.created_at).toLocaleDateString("fr-FR")}</td>
+                    <td className="py-2 pr-3 text-muted-foreground">{new Date(t.created_at).toLocaleDateString("fr-FR")}</td>
+                    <td className="py-2">
+                      <button onClick={() => handleDelete(t.ticket_id)} className="p-1 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors" title="Supprimer">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </td>
                   </tr>
                 );
               })}

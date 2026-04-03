@@ -135,7 +135,7 @@ const AdminDashboard = () => {
           <div className="text-center py-16 text-muted-foreground">Chargement...</div>
         ) : (
           <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            {activeTab === "stats" && <AdminStats tickets={tickets} sellers={sellers} />}
+            {activeTab === "stats" && <AdminStats tickets={tickets} sellers={sellers} onRefresh={fetchData} />}
             {activeTab === "sellers" && <AdminSellers sellers={sellers} onRefresh={fetchData} />}
             {activeTab === "gallery" && <AdminGallery />}
           </motion.div>

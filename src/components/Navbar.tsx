@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, ShieldCheck } from "lucide-react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -56,6 +57,13 @@ const Navbar = () => {
           ))}
         </div>
         <div className="flex items-center gap-2">
+          <Link
+            to="/admin"
+            className={`p-1.5 rounded-full transition-colors ${scrolled ? "text-foreground hover:bg-accent" : "text-primary-foreground/80 hover:text-primary-foreground"}`}
+            aria-label="Administration"
+          >
+            <ShieldCheck size={18} />
+          </Link>
           <button
             onClick={() => setDark(!dark)}
             className={`p-1.5 rounded-full transition-colors ${scrolled ? "text-foreground hover:bg-accent" : "text-primary-foreground/80 hover:text-primary-foreground"}`}
