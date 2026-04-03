@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { Ticket, DollarSign, Users, TrendingUp, Download } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 interface TicketRow {
   ticket_id: string;
