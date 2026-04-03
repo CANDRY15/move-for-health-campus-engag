@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { Ticket, DollarSign, Users, TrendingUp, Download } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 interface TicketRow {
   ticket_id: string;
@@ -35,6 +37,18 @@ const AdminStats = ({ tickets, sellers }: Props) => {
   const totalRevenue = tickets.reduce((s, t) => s + t.price, 0);
   const standardCount = tickets.filter((t) => t.category === "standard").length;
   const vipCount = tickets.filter((t) => t.category === "vip").length;
+
+  const dailyData = useMemo(() => {
+    const map: Record<string, { date: string; standard: number; vip: number; revenue: number }> = {};
+    tickets.forEach((t) => {
+      const day = new Date(t.created_at).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" });
+      if (!map[day]) map[day] = { date: day, standard: 0, vip: 0, revenue: 0 };
+      if (t.category === "vip") map[day].vip += 1;
+      else map[day].standard += 1;
+      map[day].revenue += t.price;
+    });
+    return Object.values(map).reverse();
+  }, [tickets]);
 
   const exportCSV = () => {
     const headers = ["ID Billet", "Nom", "Email", "Téléphone", "Catégorie", "Prix", "Vendeur", "Date"];
@@ -79,6 +93,27 @@ const AdminStats = ({ tickets, sellers }: Props) => {
         <Download className="w-4 h-4" />
         Exporter les ventes (CSV)
       </button>
+
+      {/* Sales chart */}
+      {dailyData.length > 0 && (
+        <div className="bg-card border border-border rounded-2xl p-5 shadow-md">
+          <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-primary" /> Ventes par jour
+          </h2>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={dailyData}>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis dataKey="date" tick={{ fontSize: 11 }} className="text-muted-foreground" />
+                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
+                <Tooltip />
+                <Bar dataKey="standard" name="Standard" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="vip" name="VIP" fill="#eab308" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
 
       {/* Seller breakdown */}
       <div className="bg-card border border-border rounded-2xl p-5 shadow-md">
