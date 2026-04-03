@@ -224,7 +224,8 @@ const AdminStats = ({ tickets, sellers, onRefresh }: Props) => {
                 <th className="pb-2 pr-3">Cat.</th>
                 <th className="pb-2 pr-3">Prix</th>
                 <th className="pb-2 pr-3 hidden md:table-cell">Vendeur</th>
-                <th className="pb-2">Date</th>
+                <th className="pb-2 pr-3">Date</th>
+                <th className="pb-2"></th>
               </tr>
             </thead>
             <tbody>
@@ -244,7 +245,12 @@ const AdminStats = ({ tickets, sellers, onRefresh }: Props) => {
                     </td>
                     <td className="py-2 pr-3 font-medium">${t.price}</td>
                     <td className="py-2 pr-3 hidden md:table-cell text-muted-foreground">{sellerName}</td>
-                    <td className="py-2 text-muted-foreground">{new Date(t.created_at).toLocaleDateString("fr-FR")}</td>
+                    <td className="py-2 pr-3 text-muted-foreground">{new Date(t.created_at).toLocaleDateString("fr-FR")}</td>
+                    <td className="py-2">
+                      <button onClick={() => handleDelete(t.ticket_id)} className="p-1 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors" title="Supprimer">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </td>
                   </tr>
                 );
               })}
