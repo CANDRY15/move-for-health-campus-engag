@@ -70,6 +70,16 @@ const AdminStats = ({ tickets, sellers }: Props) => {
         <StatCard icon={<TrendingUp className="w-5 h-5" />} label="VIP" value={vipCount} color="text-yellow-500" />
       </div>
 
+      {/* Export CSV */}
+      <button
+        onClick={exportCSV}
+        disabled={tickets.length === 0}
+        className="w-full py-3 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors inline-flex items-center justify-center gap-2 disabled:opacity-50"
+      >
+        <Download className="w-4 h-4" />
+        Exporter les ventes (CSV)
+      </button>
+
       {/* Seller breakdown */}
       <div className="bg-card border border-border rounded-2xl p-5 shadow-md">
         <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
