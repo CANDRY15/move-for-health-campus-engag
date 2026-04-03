@@ -36,6 +36,20 @@ const AdminStats = ({ tickets, sellers }: Props) => {
   const standardCount = tickets.filter((t) => t.category === "standard").length;
   const vipCount = tickets.filter((t) => t.category === "vip").length;
 
+  const exportCSV = () => {
+    const headers = ["ID Billet", "Nom", "Email", "Téléphone", "Catégorie", "Prix", "Vendeur", "Date"];
+    const rows = tickets.map((t) => {
+      const sellerName = sellers.find((s) => s.id === t.seller_id)?.name || "—";
+      return [t.ticket_id, t.name, t.email, t.phone, t.category, `$${t.price}`, sellerName, new Date(t.created_at).toLocaleDateString("fr-FR")];
+    });
+    const csv = [headers, ...rows].map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `ventes-hcm-${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+  };
+
   const sellerStats = sellers.map((s) => {
     const st = tickets.filter((t) => t.seller_id === s.id);
     return {
