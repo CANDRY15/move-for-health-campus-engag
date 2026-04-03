@@ -1,4 +1,4 @@
-import { Ticket, DollarSign, Users, TrendingUp } from "lucide-react";
+import { Ticket, DollarSign, Users, TrendingUp, Download } from "lucide-react";
 
 interface TicketRow {
   ticket_id: string;
@@ -36,6 +36,20 @@ const AdminStats = ({ tickets, sellers }: Props) => {
   const standardCount = tickets.filter((t) => t.category === "standard").length;
   const vipCount = tickets.filter((t) => t.category === "vip").length;
 
+  const exportCSV = () => {
+    const headers = ["ID Billet", "Nom", "Email", "Téléphone", "Catégorie", "Prix", "Vendeur", "Date"];
+    const rows = tickets.map((t) => {
+      const sellerName = sellers.find((s) => s.id === t.seller_id)?.name || "—";
+      return [t.ticket_id, t.name, t.email, t.phone, t.category, `$${t.price}`, sellerName, new Date(t.created_at).toLocaleDateString("fr-FR")];
+    });
+    const csv = [headers, ...rows].map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `ventes-hcm-${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+  };
+
   const sellerStats = sellers.map((s) => {
     const st = tickets.filter((t) => t.seller_id === s.id);
     return {
@@ -55,6 +69,16 @@ const AdminStats = ({ tickets, sellers }: Props) => {
         <StatCard icon={<Users className="w-5 h-5" />} label="Standard" value={standardCount} />
         <StatCard icon={<TrendingUp className="w-5 h-5" />} label="VIP" value={vipCount} color="text-yellow-500" />
       </div>
+
+      {/* Export CSV */}
+      <button
+        onClick={exportCSV}
+        disabled={tickets.length === 0}
+        className="w-full py-3 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors inline-flex items-center justify-center gap-2 disabled:opacity-50"
+      >
+        <Download className="w-4 h-4" />
+        Exporter les ventes (CSV)
+      </button>
 
       {/* Seller breakdown */}
       <div className="bg-card border border-border rounded-2xl p-5 shadow-md">
