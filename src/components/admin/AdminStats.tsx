@@ -129,6 +129,28 @@ const AdminStats = ({ tickets, sellers, onRefresh }: Props) => {
         <StatCard icon={<TrendingUp className="w-5 h-5" />} label="VIP" value={vipCount} color="text-yellow-500" />
       </div>
 
+      {/* QR Code for ticket page */}
+      <div className="bg-card border border-border rounded-2xl p-5 shadow-md">
+        <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+          <QrCode className="w-5 h-5 text-primary" /> QR Code — Page d'achat
+        </h2>
+        <p className="text-xs text-muted-foreground mb-3">Ce QR code redirige vers <span className="font-mono text-foreground">/ticket</span> pour l'achat de billets.</p>
+        <div className="flex flex-col items-center gap-3">
+          <div id="admin-qr-canvas" className="bg-white p-4 rounded-xl">
+            <QRCodeSVG value={ticketPageUrl} size={180} level="H" />
+          </div>
+          <p className="text-[10px] text-muted-foreground break-all text-center">{ticketPageUrl}</p>
+          <div className="flex gap-2">
+            <button onClick={handleDownloadQR} className="py-2 px-4 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors inline-flex items-center gap-2">
+              <Download className="w-4 h-4" /> Télécharger
+            </button>
+            <button onClick={handleShareQR} className="py-2 px-4 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors inline-flex items-center gap-2">
+              <Share2 className="w-4 h-4" /> Copier le lien
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Export CSV */}
       <button
         onClick={exportCSV}
